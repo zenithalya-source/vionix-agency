@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vionix | Digital Marketing & Branding untuk UMKM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <style>
         /* Reset & Variabel */
         :root {
             --primary-dark: #0f172a;
             --primary-light: #ffffff;
             --accent-blue: #2563eb;
+            --accent-blue-hover: #1d4ed8;
             --text-gray: #475569;
             --bg-gray: #f8fafc;
             --gold-star: #fbbf24;
-            --wa-green: #25D366; /* Warna khusus untuk tombol WA jika diperlukan */
+            --border-color: #e2e8f0;
         }
 
         * {
@@ -27,7 +30,9 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             color: var(--primary-dark);
@@ -36,42 +41,68 @@
             overflow-x: hidden;
         }
 
-        body.modal-open { overflow: hidden; }
+        body.modal-open {
+            overflow: hidden;
+        }
 
-        a { text-decoration: none; color: inherit; }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
         /* Navigasi */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem 5%;
+            padding: 1rem 5%;
             background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 100;
-            transition: box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
         }
 
-        .navbar.scrolled { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); }
+        .navbar.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.8rem 5%;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
         .navbar-brand img {
-            height: 55px; 
+            height: 45px;
             width: auto;
             transition: transform 0.3s ease;
         }
 
-        .navbar-brand img:hover { transform: scale(1.02); }
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
 
-        .navbar-menu { display: flex; gap: 2.5rem; }
+        .navbar-menu {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
 
         .navbar-menu a {
             font-weight: 500;
             font-size: 0.95rem;
             position: relative;
             padding-bottom: 4px;
+            color: var(--text-gray);
             transition: color 0.3s ease;
         }
 
@@ -86,43 +117,123 @@
             transition: width 0.3s ease;
         }
 
-        .navbar-menu a:hover::after { width: 100%; }
-        .navbar-menu a:hover { color: var(--accent-blue); }
+        .navbar-menu a:hover::after {
+            width: 100%;
+        }
 
-        .btn-primary {
+        .navbar-menu a:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Tombol Hamburger (Mobile) */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 30px;
+            height: 20px;
+            position: relative;
+            z-index: 101;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
             background-color: var(--primary-dark);
-            color: var(--primary-light);
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 0;
+        }
+
+        .hamburger span:nth-child(2) {
+            top: 9px;
+        }
+
+        .hamburger span:nth-child(3) {
+            bottom: 0;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 9px;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            bottom: 9px;
+        }
+
+        /* Tombol */
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: var(--primary-light) !important;
             padding: 0.75rem 1.75rem;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 600;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
             font-size: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
         }
 
         .btn-primary:hover {
-            background-color: var(--accent-blue);
+            background-color: var(--accent-blue-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-dark);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-dark);
+            background-color: var(--bg-gray);
         }
 
         /* Hero Section */
         .hero {
-            padding: 10rem 5% 8rem 5%;
+            padding: 12rem 5% 8rem 5%;
             text-align: center;
             background-color: var(--bg-gray);
             position: relative;
+            /* Efek Premium Glow Background */
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(37, 99, 235, 0.05), transparent 25%);
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 700;
             max-width: 900px;
             margin: 0 auto 1.5rem auto;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--primary-dark);
+        }
+
+        .hero h1 span {
+            color: var(--accent-blue);
         }
 
         .hero p {
@@ -132,69 +243,132 @@
             margin: 0 auto 2.5rem auto;
         }
 
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
         /* Konteks Section */
         .context-section {
-            padding: 7rem 5%;
+            padding: 8rem 5%;
             background-color: var(--primary-dark);
             color: var(--primary-light);
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5rem;
+            gap: 6rem;
             align-items: center;
         }
 
         .context-content h2 {
-            font-size: 2.5rem;
+            font-size: 2.75rem;
             margin-bottom: 1.5rem;
-            line-height: 1.3;
+            line-height: 1.2;
         }
 
         .context-content p {
             font-size: 1.1rem;
-            color: #cbd5e1;
+            color: #94a3b8;
             margin-bottom: 1rem;
         }
 
-        .stats-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
 
         .stat-card {
             background-color: rgba(255, 255, 255, 0.03);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: transform 0.4s ease, background-color 0.4s ease;
+            padding: 2rem 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
         }
 
         .stat-card:hover {
             transform: translateX(-10px);
             background-color: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.15);
         }
 
-        .stat-card h3 { font-size: 3rem; color: #60a5fa; margin-bottom: 0.5rem; line-height: 1; }
+        .stat-card h3 {
+            font-size: 3.5rem;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+            font-weight: 700;
+        }
 
         /* Layanan Section */
-        .services { padding: 8rem 5%; background-color: var(--primary-light); }
-        .section-header { text-align: center; margin-bottom: 5rem; }
-        .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .section-header p { color: var(--text-gray); max-width: 500px; margin: 0 auto; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+        .services {
+            padding: 8rem 5%;
+            background-color: var(--primary-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-gray);
+            max-width: 550px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
 
         .service-card {
             padding: 3rem 2.5rem;
             background: var(--primary-light);
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #eff6ff;
+            color: var(--accent-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
         }
 
         .service-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
             background-color: var(--accent-blue);
             transform: scaleX(0);
             transform-origin: left;
@@ -203,22 +377,51 @@
 
         .service-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
             border-color: transparent;
         }
-        .service-card:active { transform: translateY(-4px) scale(0.98); }
-        .service-card:hover::before { transform: scaleX(1); }
+
+        .service-card:hover .service-icon {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .service-card:active {
+            transform: translateY(-4px) scale(0.98);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
 
         .service-card h3 {
-            font-size: 1.25rem; margin-bottom: 1rem; color: var(--primary-dark);
-            display: flex; justify-content: space-between; align-items: center;
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+
         .service-card h3::after {
-            content: '→'; font-size: 1.5rem; color: var(--accent-blue);
-            opacity: 0; transform: translateX(-10px); transition: all 0.3s ease;
+            content: '→';
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
         }
-        .service-card:hover h3::after { opacity: 1; transform: translateX(0); }
-        .service-card p { color: var(--text-gray); font-size: 1rem; }
+
+        .service-card:hover h3::after {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .service-card p {
+            color: var(--text-gray);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
 
         /* Testimoni & Rating Section */
         .testimonial-section {
@@ -229,30 +432,34 @@
         .testimonial-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 5rem;
             align-items: start;
         }
 
         .review-card {
             background: var(--primary-light);
             padding: 2.5rem;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
             margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
             transition: transform 0.3s ease;
         }
 
-        .review-card:hover { transform: translateY(-5px); }
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
 
         .stars-display {
             color: var(--gold-star);
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 1rem;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
         }
 
         .review-text {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--text-gray);
             font-style: italic;
             margin-bottom: 1.5rem;
@@ -268,10 +475,10 @@
         /* Form Rating Interaktif */
         .rating-box {
             background: var(--primary-light);
-            padding: 3rem;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-            border: 1px solid #e2e8f0;
+            padding: 3.5rem;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
         }
 
         .rating-box h3 {
@@ -279,10 +486,10 @@
             margin-bottom: 0.5rem;
         }
 
-        .rating-box > p {
+        .rating-box>p {
             color: var(--text-gray);
             margin-bottom: 2rem;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
 
         .star-rating {
@@ -299,16 +506,24 @@
             user-select: none;
         }
 
-        .star-rating span:hover { transform: scale(1.1); }
-        .star-rating span.hovered, .star-rating span.selected { color: var(--gold-star); }
+        .star-rating span:hover {
+            transform: scale(1.15);
+        }
 
-        .form-group { margin-bottom: 1.5rem; }
+        .star-rating span.hovered,
+        .star-rating span.selected {
+            color: var(--gold-star);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
 
         .form-control {
             width: 100%;
             padding: 1rem 1.25rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             font-family: inherit;
             font-size: 0.95rem;
             color: var(--primary-dark);
@@ -329,94 +544,298 @@
             background-color: #f0fdf4;
             border: 1px solid #bbf7d0;
             color: #166534;
-            border-radius: 8px;
+            border-radius: 12px;
             text-align: center;
             animation: fadeIn 0.5s ease forwards;
         }
 
-        .success-message h4 { font-size: 1.25rem; margin-bottom: 0.5rem; }
-
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Modal / Pop-up Premium */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(15, 23, 42, 0.5); backdrop-filter: blur(8px);
-            z-index: 1000; display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .modal-content {
-            background-color: var(--primary-light); width: 90%; max-width: 650px;
-            padding: 3.5rem; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background-color: var(--primary-light);
+            width: 90%;
+            max-width: 600px;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
         }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
-        .modal-close {
-            position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none;
-            font-size: 2rem; color: var(--text-gray); cursor: pointer; transition: color 0.3s ease;
-            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
         }
-        .modal-close:hover { color: var(--primary-dark); background-color: var(--bg-gray); }
-        .modal-body h3 { font-size: 2rem; margin-bottom: 1rem; color: var(--primary-dark); line-height: 1.2; }
-        .modal-body .modal-subtitle { font-size: 1.1rem; color: var(--accent-blue); font-weight: 600; margin-bottom: 1.5rem; }
-        .modal-body p { color: var(--text-gray); font-size: 1.05rem; margin-bottom: 2rem; }
 
-        /* Footer */
-        .footer { background-color: #020617; color: #94a3b8; padding: 5rem 5% 2rem 5%; text-align: center; }
-        .footer-content h4 { color: var(--primary-light); font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--bg-gray);
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
 
-        /* Animasi Transisi (Scroll Reveal) */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-        .delay-1 { transition-delay: 0.1s; }
-        .delay-2 { transition-delay: 0.2s; }
-        .delay-3 { transition-delay: 0.3s; }
+        .modal-close:hover {
+            color: var(--primary-dark);
+            background-color: #e2e8f0;
+        }
+
+        .modal-body h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+            line-height: 1.2;
+        }
+
+        .modal-body .modal-subtitle {
+            font-size: 1.05rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body p {
+            color: var(--text-gray);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        /* Footer Premium */
+        .footer {
+            background-color: #020617;
+            color: #94a3b8;
+            padding: 5rem 5% 2rem 5%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 4rem;
+        }
+
+        .footer-col h4 {
+            color: var(--primary-light);
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .footer-col p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .footer-col a {
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* Animasi Transisi */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .delay-3 {
+            transition-delay: 0.3s;
+        }
 
         /* Responsivitas */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .context-section {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+        }
+
         @media (max-width: 768px) {
-            .hero { padding-top: 8rem; }
-            .hero h1 { font-size: 2.5rem; }
-            .context-section, .testimonial-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .navbar-menu { display: none; }
-            .modal-content { padding: 2rem; }
-            .modal-body h3 { font-size: 1.5rem; }
-            .rating-box { padding: 2rem; }
+            .hero {
+                padding-top: 10rem;
+            }
+
+            .hero h1 {
+                font-size: 2.25rem;
+            }
+
+            /* Tampilan Menu HP */
+            .navbar-menu {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary-light);
+                flex-direction: column;
+                gap: 0;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+                transform: scaleY(0);
+                transform-origin: top;
+                transition: transform 0.3s ease;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .navbar-menu.active {
+                transform: scaleY(1);
+            }
+
+            .navbar-menu a {
+                padding: 1.25rem 5%;
+                border-bottom: 1px solid var(--bg-gray);
+                display: block;
+                width: 100%;
+            }
+
+            .navbar-menu .btn-primary {
+                margin: 1rem 5%;
+                width: 90%;
+            }
+
+            .modal-content {
+                padding: 2rem;
+            }
+
+            .modal-body h3 {
+                font-size: 1.5rem;
+            }
+
+            .rating-box {
+                padding: 2rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar" id="navbar">
         <div class="navbar-brand">
-            <img src="logo.png" alt="Vionix Logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/150x55?text=VIONIX';">
+            <!-- Jika logo gagal load, teks "Vionix" akan tetap rapi -->
+            <img src="logo.png" alt="Vionix Logo"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <span style="display: none;">Vionix.</span>
         </div>
-        <div class="navbar-menu">
+
+        <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="navbar-menu" id="navMenu">
             <a href="#beranda">Beranda</a>
             <a href="#masalah">Konteks</a>
             <a href="#layanan">Layanan</a>
             <a href="#ulasan">Ulasan</a>
+            <a href="https://wa.me/6282125073380?text=Halo%20Tim%20Vionix,%20saya%20tertarik%20untuk%20berkonsultasi..."
+                target="_blank" class="btn-primary">Hubungi Kami</a>
         </div>
-        <a href="https://wa.me/6282125073380?text=Halo%20Tim%20Vionix,%20saya%20tertarik%20untuk%20berkonsultasi%20mengenai%20layanan%20Digital%20Marketing%20dan%20Branding%20untuk%20bisnis%20saya.%20Boleh%20minta%20informasi%20lebih%20lanjut?" target="_blank" class="btn-primary">Hubungi Kami</a>
     </nav>
 
     <header id="beranda" class="hero">
-        <h1 class="reveal">Membangun Identitas Brand yang Relevan dan Berdampak.</h1>
-        <p class="reveal delay-1">Vionix membantu UMKM dan bisnis pemula merancang strategi branding serta pemasaran digital yang terjangkau, praktis, dan terukur secara komersial.</p>
-        <div class="reveal delay-2">
-            <a href="#layanan" class="btn-primary">Lihat Layanan Kami</a>
+        <h1 class="reveal">Membangun Identitas Brand yang <span>Relevan</span> & Berdampak.</h1>
+        <p class="reveal delay-1">Vionix membantu UMKM dan bisnis pemula merancang strategi branding serta pemasaran
+            digital yang terjangkau, praktis, dan terukur secara komersial.</p>
+        <div class="hero-buttons reveal delay-2">
+            <a href="#layanan" class="btn-primary">Jelajahi Layanan</a>
+            <a href="#masalah" class="btn-outline">Pelajari Lebih Lanjut</a>
         </div>
     </header>
 
     <section id="masalah" class="context-section">
         <div class="context-content reveal">
             <h2>Mengapa Branding Terstruktur Penting?</h2>
-            <p>Berdasarkan analisis industri kami, banyak pelaku UMKM kreatif kesulitan mempertahankan identitas dan pesan brand yang konsisten.</p>
-            <p>Dampaknya nyata pada ekosistem bisnis: komunikasi audiens yang tidak efektif berujung pada loyalitas konsumen yang rendah, penurunan omzet, hingga keraguan dari mitra strategis.</p>
+            <p>Berdasarkan analisis industri kami, banyak pelaku UMKM kreatif kesulitan mempertahankan identitas dan
+                pesan brand yang konsisten.</p>
+            <p>Dampaknya nyata pada ekosistem bisnis: komunikasi audiens yang tidak efektif berujung pada loyalitas
+                konsumen yang rendah, penurunan omzet, hingga keraguan dari mitra strategis.</p>
         </div>
         <div class="stats-grid">
             <div class="stat-card reveal delay-1">
@@ -425,7 +844,7 @@
             </div>
             <div class="stat-card reveal delay-2">
                 <h3>60%</h3>
-                <p>Bisnis beroperasi tanpa kerangka strategi konten digital yang efektif.</p>
+                <p>Bisnis beroperasi tanpa kerangka strategi konten digital yang proaktif dan efektif.</p>
             </div>
         </div>
     </section>
@@ -433,34 +852,48 @@
     <section id="layanan" class="services">
         <div class="section-header reveal">
             <h2>Solusi Strategis Vionix</h2>
-            <p>Pendekatan terstruktur untuk memastikan bisnis Anda bersaing di era digital dengan biaya yang terukur. <strong>Klik pada layanan untuk detail.</strong></p>
+            <p>Pendekatan terstruktur untuk memastikan bisnis Anda bersaing di era digital dengan biaya yang terukur.
+                <strong>Klik pada layanan untuk detail.</strong></p>
         </div>
         <div class="services-grid">
-            <div class="service-card reveal delay-1" 
-                 data-title="Brand Identity Development" 
-                 data-subtitle="Menciptakan Pondasi Visual yang Kuat"
-                 data-desc="Membantu pelaku usaha mendefinisikan identitas, nilai inti, dan pesan komunikasi brand agar konsisten dan mudah dikenali oleh audiens sasaran."
-                 data-full="Kami menyusun panduan arsitektur brand secara komprehensif. Mulai dari perancangan logo filosofis, penentuan palet warna psikologis (brand guidelines), standar tipografi, hingga pembentukan 'Tone of Voice' agar brand Anda tampil konsisten, profesional, dan memiliki daya tawar yang tinggi di mata mitra strategis.">
+            <div class="service-card reveal delay-1" data-title="Brand Identity Development"
+                data-subtitle="Menciptakan Pondasi Visual yang Kuat"
+                data-full="Kami menyusun panduan arsitektur brand secara komprehensif. Mulai dari perancangan logo filosofis, penentuan palet warna psikologis, standar tipografi, hingga pembentukan 'Tone of Voice' agar brand Anda tampil konsisten, profesional, dan memiliki daya tawar yang tinggi.">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z">
+                        </path>
+                    </svg>
+                </div>
                 <h3>Brand Identity</h3>
                 <p>Membantu mendefinisikan identitas, nilai inti, dan pesan komunikasi brand agar konsisten.</p>
             </div>
 
-            <div class="service-card reveal delay-2" 
-                 data-title="Content Strategy" 
-                 data-subtitle="Merancang Arsitektur Pesan Digital"
-                 data-desc="Penyusunan arsitektur konten yang terarah untuk platform media sosial guna meningkatkan tingkat keterlibatan audiens."
-                 data-full="Kami tidak sekadar membuat desain, tetapi membangun alur cerita merek Anda. Layanan ini mencakup riset tren kompetitor, pembuatan kalender editorial (content calendar) terstruktur, hingga penyusunan copywriting persuasif yang dirancang khusus untuk memicu interaksi dan membangun loyalitas pelanggan jangka panjang.">
+            <div class="service-card reveal delay-2" data-title="Content Strategy"
+                data-subtitle="Merancang Arsitektur Pesan Digital"
+                data-full="Kami tidak sekadar membuat desain, tetapi membangun alur cerita merek Anda. Layanan ini mencakup riset tren kompetitor, pembuatan kalender editorial terstruktur, hingga penyusunan copywriting persuasif yang dirancang khusus untuk membangun interaksi.">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+                        </path>
+                    </svg>
+                </div>
                 <h3>Content Strategy</h3>
-                <p>Penyusunan arsitektur konten yang terarah guna meningkatkan keterlibatan (engagement) audiens.</p>
+                <p>Penyusunan arsitektur konten yang terarah guna meningkatkan keterlibatan audiens.</p>
             </div>
 
-            <div class="service-card reveal delay-3" 
-                 data-title="Digital Marketing" 
-                 data-subtitle="Eksekusi Pemasaran Berbasis Data"
-                 data-desc="Implementasi pemasaran digital yang komprehensif, terjangkau, dan disederhanakan."
-                 data-full="Solusi pemasaran terukur untuk skalabilitas bisnis. Kami mengeksekusi kampanye iklan berbayar (Paid Ads) yang ditargetkan secara presisi. Dilengkapi dengan pengelolaan metrik performa bulanan (ROI) sehingga Anda dapat memantau efisiensi setiap anggaran pemasaran tanpa kerumitan teknis.">
+            <div class="service-card reveal delay-3" data-title="Digital Marketing"
+                data-subtitle="Eksekusi Pemasaran Berbasis Data"
+                data-full="Solusi pemasaran terukur untuk skalabilitas bisnis. Kami mengeksekusi kampanye iklan berbayar (Paid Ads) yang ditargetkan secara presisi. Dilengkapi dengan pengelolaan metrik performa bulanan agar Anda dapat memantau efisiensi ROI.">
+                <div class="service-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                </div>
                 <h3>Digital Marketing</h3>
-                <p>Implementasi pemasaran digital yang komprehensif, terjangkau, dan disederhanakan untuk penetrasi pasar.</p>
+                <p>Implementasi pemasaran digital yang komprehensif, terjangkau, dan disederhanakan.</p>
             </div>
         </div>
     </section>
@@ -468,19 +901,22 @@
     <section id="ulasan" class="testimonial-section">
         <div class="section-header reveal">
             <h2>Kepercayaan Klien</h2>
-            <p>Bukti nyata bagaimana Vionix membantu UMKM menstrukturkan ulang sistem pemasaran dan identitas mereka.</p>
+            <p>Bukti nyata bagaimana Vionix membantu UMKM menstrukturkan ulang sistem pemasaran dan identitas mereka.
+            </p>
         </div>
-        
+
         <div class="testimonial-grid">
             <div class="testimonial-list reveal delay-1">
                 <div class="review-card">
                     <div class="stars-display">★★★★★</div>
-                    <p class="review-text">"Vionix sangat membantu kami merapikan konsep brand yang tadinya berantakan. Sekarang arah komunikasi ke audiens jauh lebih jelas dan terstruktur."</p>
+                    <p class="review-text">"Vionix sangat membantu kami merapikan konsep brand yang tadinya berantakan.
+                        Sekarang arah komunikasi ke audiens jauh lebih jelas dan terstruktur."</p>
                     <p class="review-author">— Founder, F&B Lokal Tangerang</p>
                 </div>
                 <div class="review-card">
                     <div class="stars-display">★★★★★</div>
-                    <p class="review-text">"Pendekatannya sangat praktis dan tidak bertele-tele. Strategi konten yang disusun berdampak langsung pada engagement media sosial kami."</p>
+                    <p class="review-text">"Pendekatannya sangat praktis dan tidak bertele-tele. Strategi konten yang
+                        disusun berdampak langsung pada engagement media sosial kami."</p>
                     <p class="review-author">— Owner, Retail Fashion Hijab</p>
                 </div>
             </div>
@@ -488,7 +924,7 @@
             <div class="rating-box reveal delay-2">
                 <h3>Berikan Evaluasi Anda</h3>
                 <p>Bagaimana pengalaman Anda bekerja sama dengan tim kami?</p>
-                
+
                 <form id="ratingForm">
                     <div class="star-rating" id="starRating">
                         <span data-value="1">★</span>
@@ -497,31 +933,52 @@
                         <span data-value="4">★</span>
                         <span data-value="5">★</span>
                     </div>
-                    
+
                     <div class="form-group">
-                        <input type="text" class="form-control" id="clientName" placeholder="Nama Perusahaan / Bisnis Anda" required>
+                        <input type="text" class="form-control" id="clientName"
+                            placeholder="Nama Perusahaan / Bisnis Anda" required>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" id="clientReview" rows="4" placeholder="Ceritakan perubahan yang bisnis Anda alami setelah bekerja sama..." required></textarea>
+                        <textarea class="form-control" id="clientReview" rows="4"
+                            placeholder="Ceritakan perubahan yang bisnis Anda alami setelah bekerja sama..."
+                            required></textarea>
                     </div>
-                    
-                    <button type="submit" class="btn-primary" style="width: 100%;">Kirim Evaluasi</button>
+
+                    <button type="submit" class="btn-primary" style="width: 100%;">Kirim Evaluasi Kemitraan</button>
                 </form>
 
                 <div id="thankYouMessage" class="success-message">
                     <h4>Terima Kasih!</h4>
-                    <p>Ulasan Anda telah tersimpan ke dalam sistem kami. Evaluasi Anda adalah fondasi kami untuk terus berkembang.</p>
+                    <p>Ulasan Anda telah tersimpan ke dalam sistem kami. Evaluasi Anda adalah fondasi kami untuk terus
+                        berkembang.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <footer id="kontak" class="footer">
-        <div class="footer-content reveal">
-            <h4>Vionix</h4>
-            <p>Tangerang Selatan, Indonesia</p>
+        <div class="footer-grid reveal">
+            <div class="footer-col">
+                <h4>Vionix.</h4>
+                <p>Membantu UMKM merancang strategi branding dan pemasaran digital yang terjangkau, praktis, dan
+                    berorientasi pada hasil.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Layanan</h4>
+                <a href="#layanan">Brand Identity</a>
+                <a href="#layanan">Content Strategy</a>
+                <a href="#layanan">Digital Marketing</a>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <p>Tangerang Selatan, Banten<br>Indonesia</p>
+                <a href="mailto:vionixagency2025@gmail.com"
+                    style="text-decoration: underline; text-underline-offset: 4px;">vionixagency2025@gmail.com</a>
+            </div>
         </div>
-        <p class="reveal delay-1">&copy; 2025 Vionix Digital Marketing. Hak Cipta Dilindungi.</p>
+        <div class="footer-bottom reveal delay-1">
+            <p>&copy; 2025 Vionix Digital Marketing. Semua Hak Cipta Dilindungi.</p>
+        </div>
     </footer>
 
     <div class="modal-overlay" id="serviceModal">
@@ -531,13 +988,31 @@
                 <h3 id="modalTitle">Judul Layanan</h3>
                 <div class="modal-subtitle" id="modalSubtitle">Subjudul Layanan</div>
                 <p id="modalDesc">Deskripsi detail akan muncul di sini.</p>
-                <button class="btn-primary" onclick="closeModal()">Tutup Jendela</button>
+                <button class="btn-primary" onclick="closeModal()">Tutup Penjelasan</button>
             </div>
         </div>
     </div>
 
     <script>
-        window.addEventListener('scroll', function() {
+        // Hamburger Menu Logic
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('navMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Menutup menu jika salah satu link diklik (di versi HP)
+        document.querySelectorAll('.navbar-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Efek Bayangan Navbar saat Scroll
+        window.addEventListener('scroll', function () {
             const navbar = document.getElementById('navbar');
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
@@ -546,6 +1021,7 @@
             }
         });
 
+        // Intersection Observer untuk Animasi Muncul (Scroll Reveal)
         function revealElements() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
@@ -555,17 +1031,18 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
             reveals.forEach(reveal => observer.observe(reveal));
         }
         document.addEventListener('DOMContentLoaded', revealElements);
 
+        // Logika Modal Pop-up
         const modal = document.getElementById('serviceModal');
         const cards = document.querySelectorAll('.service-card');
 
         cards.forEach(card => {
-            card.addEventListener('click', function() {
+            card.addEventListener('click', function () {
                 document.getElementById('modalTitle').textContent = this.getAttribute('data-title');
                 document.getElementById('modalSubtitle').textContent = this.getAttribute('data-subtitle');
                 document.getElementById('modalDesc').textContent = this.getAttribute('data-full');
@@ -579,14 +1056,15 @@
             document.body.classList.remove('modal-open');
         }
 
-        modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+        modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
 
+        // Logika Sistem Rating Bintang
         const stars = document.querySelectorAll('.star-rating span');
         let selectedRating = 0;
 
         stars.forEach(star => {
-            star.addEventListener('mouseover', function() {
+            star.addEventListener('mouseover', function () {
                 const value = this.getAttribute('data-value');
                 stars.forEach(s => {
                     if (s.getAttribute('data-value') <= value) {
@@ -597,11 +1075,11 @@
                 });
             });
 
-            star.addEventListener('mouseout', function() {
+            star.addEventListener('mouseout', function () {
                 stars.forEach(s => s.classList.remove('hovered'));
             });
 
-            star.addEventListener('click', function() {
+            star.addEventListener('click', function () {
                 selectedRating = this.getAttribute('data-value');
                 stars.forEach(s => {
                     if (s.getAttribute('data-value') <= selectedRating) {
@@ -612,12 +1090,11 @@
                 });
             });
         });
+        document.getElementById('ratingForm').addEventListener('submit', function (e) {
+            e.preventDefault();
 
-        document.getElementById('ratingForm').addEventListener('submit', function(e) {
-            e.preventDefault(); 
-            
-            if(selectedRating === 0) {
-                alert('Silakan pilih jumlah bintang evaluasi terlebih dahulu.');
+            if (selectedRating === 0) {
+                alert('Silakan pilih jumlah bintang evaluasi terlebih dahulu sebelum mengirim.');
                 return;
             }
 
@@ -626,4 +1103,5 @@
         });
     </script>
 </body>
+
 </html>
